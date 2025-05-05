@@ -1,0 +1,105 @@
+<div class="dashboard-container">
+  <h2 class="heading">Welcome to Flight Booking Dashboard</h2>
+  <hr />
+
+  <section class="flights-section">
+    <h3>Available Flights</h3>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Flight Number</th>
+          <th>Departure</th>
+          <th>Arrival</th>
+          <th>Departure Time</th>
+          <th>Arrival Time</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flight of flights">
+          <td>{{ flight.flight_number }}</td>
+          <td>{{ flight.departure_airport }}</td>
+          <td>{{ flight.arrival_airport }}</td>
+          <td>{{ flight.departure_time }}</td>
+          <td>{{ flight.arrival_time }}</td>
+          <td>${{ flight.price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr />
+
+  <section class="form-section">
+    <h3>{{ editingId ? 'Edit Booking' : 'Book a Flight' }}</h3>
+    <form (ngSubmit)="editingId ? updateBooking() : bookFlight()" #bookingForm="ngForm">
+      <div class="form-grid">
+        <label>Flight Number:
+          <input name="flight_number" [(ngModel)]="booking.flight_number" required />
+        </label>
+        <label>Passenger Name:
+          <input name="passenger_name" [(ngModel)]="booking.passenger_name" required />
+        </label>
+        <label>Passport Number:
+          <input name="passport_number" [(ngModel)]="booking.passport_number" required />
+        </label>
+        <label>Email:
+          <input name="email" [(ngModel)]="booking.email" required />
+        </label>
+        <label>Phone Number:
+          <input name="phone_number" [(ngModel)]="booking.phone_number" required />
+        </label>
+        <label>Seat Class:
+          <select name="seat_class" [(ngModel)]="booking.seat_class" required>
+            <option value="Economy">Economy</option>
+            <option value="Business">Business</option>
+            <option value="First">First</option>
+          </select>
+        </label>
+        <label class="full-width">Contact Details:
+          <textarea name="contact_details" [(ngModel)]="booking.contact_details"></textarea>
+        </label>
+      </div>
+
+      <button type="submit" class="btn primary" [disabled]="bookingForm.invalid">
+        {{ editingId ? 'Update Booking' : 'Book Flight' }}
+      </button>
+    </form>
+
+    <p *ngIf="successMessage" class="alert success">{{ successMessage }}</p>
+    <p *ngIf="errorMessage" class="alert error">{{ errorMessage }}</p>
+  </section>
+
+  <hr />
+
+  <section class="bookings-section">
+    <h3>Your Bookings</h3>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Flight</th>
+          <th>Passenger</th>
+          <th>Passport</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Seat Class</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td>{{ booking.flight_number }}</td>
+          <td>{{ booking.passenger_name }}</td>
+          <td>{{ booking.passport_number }}</td>
+          <td>{{ booking.email }}</td>
+          <td>{{ booking.phone_number }}</td>
+          <td>{{ booking.seat_class }}</td>
+          <td>
+            <button class="btn small" (click)="editBooking(booking)">Edit</button>
+            <button class="btn small danger" (click)="deleteBooking(booking._id)">Cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

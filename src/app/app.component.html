@@ -1,0 +1,17 @@
+<nav>
+  <a routerLink="/" routerLinkActive="active">Home</a> |
+  <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a> |
+
+  <span *ngIf="isLoggedIn">
+    Welcome, {{ authService.user?.username }} |
+    <button (click)="logout()">Logout</button>
+  </span>
+
+  <span *ngIf="!isLoggedIn">
+    <a routerLink="/auth/login">Login</a> |
+    <a routerLink="/auth/signup">Register</a>
+  </span>
+</nav>
+
+<hr />
+<router-outlet></router-outlet>
